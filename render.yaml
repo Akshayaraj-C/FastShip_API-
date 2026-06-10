@@ -1,0 +1,80 @@
+services:
+  # FastAPI Web Service
+  - type: web
+    name: fastship-api
+    env: docker
+    dockerfilePath: Dockerfile
+    plan: free
+    envVars:
+      - key: PORT
+        value: 10000
+
+      # Database Configuration from Managed PostgreSQL
+      - key: POSTGRES_SERVER
+        fromDatabase:
+          name: fastship-db
+          property: host
+      - key: POSTGRES_PORT
+        fromDatabase:
+          name: fastship-db
+          property: port
+      - key: POSTGRES_USER
+        fromDatabase:
+          name: fastship-db
+          property: user
+      - key: POSTGRES_PASSWORD
+        fromDatabase:
+          name: fastship-db
+          property: password
+      - key: POSTGRES_DB
+        fromDatabase:
+          name: fastship-db
+          property: database
+
+      # Redis Configuration from Managed Redis
+      - key: REDIS_HOST
+        fromService:
+          name: fastship-redis
+          type: redis
+          property: host
+      - key: REDIS_PORT
+        fromService:
+          name: fastship-redis
+          type: redis
+          property: port
+
+      # Security Settings
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_ALGORITHM
+        value: HS256
+
+      # Notification / Mail Settings (Placeholders, can be customized in Render UI)
+      - key: MAIL_USERNAME
+        value: "placeholder_username"
+      - key: MAIL_PASSWORD
+        value: "placeholder_password"
+      - key: MAIL_FROM
+        value: "no-reply@fastship.com"
+      - key: MAIL_PORT
+        value: 2525
+      - key: MAIL_SERVER
+        value: "sandbox.smtp.mailtrap.io"
+      - key: MAIL_FROM_NAME
+        value: "FastShip"
+      - key: MAIL_STARTTLS
+        value: "True"
+      - key: MAIL_SSL_TLS
+        value: "False"
+      - key: USE_CREDENTIALS
+        value: "True"
+      - key: VALIDATE_CERTS
+        value: "True"
+
+databases:
+  - name: fastship-db
+    plan: free
+
+redis:
+  - name: fastship-redis
+    plan: free

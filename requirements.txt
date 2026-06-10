@@ -1,0 +1,14 @@
+fastapi[standard]
+scalar-fastapi
+pydantic-settings
+sqlmodel
+redis
+itsdangerous
+pyjwt
+passlib[bcrypt]
+bcrypt==4.2.0
+fastapi-mail
+asyncpg
+uvicorn
+jinja2
+python-multipart
