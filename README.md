@@ -17,6 +17,62 @@ FastShip is a high-performance logistics and shipment management API built with 
 
 ---
 
+## 📂 Project Structure
+
+Below is the directory structure highlighting the key parts of the FastShip codebase, showing how the **FastAPI Backend** and the **React Router 7 Frontend** are organized:
+
+```text
+├── api/                  # Backend endpoints, routes & dependency injection
+│   ├── dependencies.py   # FastAPI path dependencies (auth, database, session context)
+│   ├── router.py         # Master router aggregation
+│   ├── routers/          # Endpoints categorized by roles & actions
+│   │   ├── delivery_partner.py
+│   │   ├── seller.py
+│   │   └── shipment.py
+│   └── schemas/          # Pydantic models for request validation & response serialization
+├── core/                 # Core security & encryption helpers
+│   └── security.py       # Password hashing & JWT helper routines
+├── database/             # Database ORM, sessions, and tables definition
+│   ├── models.py         # SQLModel database schemas (Sellers, Partners, Shipments, etc.)
+│   ├── redis.py          # Redis connection client setup (used for token blacklisting)
+│   └── session.py        # Async engines & local database session setup
+├── services/             # Domain logic (Business Layer) implementing core operations
+│   ├── base.py           # Base service patterns
+│   ├── delivery_partner.py # Partner-specific workflow functions
+│   ├── notification.py   # Mail notification sender using FastAPI-Mail
+│   ├── seller.py         # Seller registration & validation workflows
+│   ├── shipment.py       # Core shipment logic (assigning zip codes, calculating delivery)
+│   └── user.py           # Authentication and authorization workflows
+├── templates/            # HTML notification email templates
+├── components/           # React frontend layout & form components (Shadcn/UI components)
+│   ├── ui/               # Standard UI components (Button, Input, Table, Sidebar, etc.)
+│   ├── app-sidebar.tsx
+│   ├── login-form.tsx
+│   └── shipment-card.tsx
+├── contexts/             # Client-side context providers
+│   └── AuthContext.tsx   # React Authentication Context (managing tokens & users)
+├── hooks/                # Frontend custom React hooks
+│   └── use-mobile.ts     # Sidebar responsive display detection
+├── lib/                  # Shared frontend API library and utilities
+│   ├── api.ts            # Axios configuration & API request endpoints
+│   ├── client.ts         # Base HTTP client settings
+│   └── utils.ts          # Classnames merges and theme utility helpers
+├── routes/               # Frontend pages & views mapping to client routes
+│   ├── partner/          # Views specifically for Delivery Partners
+│   ├── seller/           # Views specifically for Sellers
+│   ├── account.tsx       # Profile management page
+│   ├── dashboard.tsx     # Operations tracking dashboard
+│   └── home.tsx          # Landing & portal selection page
+├── Dockerfile            # Docker configuration for production builds
+├── render.yaml           # Deployment blueprint configuration for databases, redis, and web app
+├── main.py               # FastAPI server entrypoint (lifespan hook, Scalar docs setup)
+├── routes.ts             # React Router 7 client routing definitions
+├── root.tsx              # React Router 7 root document element & HTML wrapper
+└── requirements.txt      # Python package dependencies
+```
+
+---
+
 ## ✨ Key Features
 
 1. **Dual Role Architecture:**
